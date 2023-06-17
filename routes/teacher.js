@@ -24,12 +24,12 @@ const upload = multer({ storage: storage }).single('file');
 // For the teacher, the teacher can create a journal
 router.post('/create', upload, teacherAuth, async (req, res) => {
     const { description, students, published_at } = req.body;
-    const uploadimg = await cloudinary.uploader.upload(req.file.path);
 
-    if (!description || !students || !published_at)
+    if (!description || !students || !published_at || !req.file)
         return res.status(401).json({ message: "Enter all fields" });
 
     try {
+        const uploadimg = await cloudinary.uploader.upload(req.file.path);
         const date = new Date(published_at);
         const journal = new Journal({
             teacher: req.id,

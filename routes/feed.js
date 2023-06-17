@@ -28,7 +28,7 @@ router.get('/student', studentAuth, async (req, res) => {
         const filteredJournals = [];
         
         journals.forEach(journal => {
-            if (journal.students[0].includes(user.username))
+            if (journal.students[0].includes(user.username) && journal.published_at <= Date.now())
                 filteredJournals.push(journal);
         });
 
